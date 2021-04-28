@@ -8,7 +8,7 @@
 
     <div class="container-body">
 
-        <div class="container-header">Kursy dla USD</div>
+        <div class="container-header" style="color:black">KURSY DLA USD</div>
 
         <div class="wybor-form">
             Wybierz walute:
@@ -28,7 +28,7 @@
         <div style="clear: both;"></div>
 
         <div class="show-data">
-            <div class="info">Kurs</div>
+            <div class="info">KURS</div>
 
             <div class="info">
                 <output type="number"> </output>
@@ -42,13 +42,13 @@
             const output = document.querySelectorAll('output');
 
             var dateControl = document.querySelector('input[type="date"]');
-            console.log(dateControl.value); 
+            console.log(dateControl.value);
 
             input[0].addEventListener('change', () => {
                 console.log(dateControl.value);
                 API_URL = "https://openexchangerates.org/api/historical/" + dateControl.value + ".json?app_id=984511ca2af843e59f5229a272a16bec";
                 output[0].value = " ";
-            
+
                 async function curr() {
                     let html = '';
 
@@ -65,7 +65,7 @@
 
                     select[0].innerHTML = html;
 
-                    select[0].addEventListener('click', () => {
+                    select[0].addEventListener('change', () => {
                         output[0].value = rates[select[0].value];
                     });
 
