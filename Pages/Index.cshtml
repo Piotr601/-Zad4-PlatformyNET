@@ -12,13 +12,16 @@
 
         <div class="wybor-form">
             Wybierz walute:
+            <select id="choose" name="currency">
+                <option value="PLN">---</option>
+            </select>
         </div>
         <div class="wybor-form">
 
             <form action="#">
                 <label>
                     Wybierz date:
-                    <input type="date" name="data">
+                    <input type="date" name="data" id="calendar">
                 </label>
             </form>
         </div>
@@ -27,9 +30,62 @@
         <a href="#" class="btn-set">Pokaż!</a>
 
         <div class="show-data">
-            <div class="info">USD/PLN</div>
-            <div class="info">3.78294</div>
+            <div class="info">Kurs</div>
+
+            <div class="info">
+                <output type="number"> </output>
+            </div>
         </div>
+
+        <script>
+            //data = '2021-04-28';
+        
+            const select = document.querySelectorAll('select');
+            const input = document.querySelectorAll('input');
+            const output = document.querySelectorAll('output');
+
+            input[0].addEventListener('change', () => {
+                var date = new Date();
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                   if (month < 10) {
+                       month = '0' + (date.getMonth() + 1);
+                   }
+                var todayDate = String(date.getDate()).padStart(2, '0');
+                var datePattern = year + '-' + month + '-' + todayDate;
+                document.getElementById("calendar").value = datePattern;
+                console.log(datePattern);
+                API_URL = "https://openexchangerates.org/api/historical/" + datePattern + ".json?app_id=984511ca2af843e59f5229a272a16bec";
+            
+
+            async function curr() {
+                let html = '';
+
+
+                const res = await fetch(API_URL);
+                const data = await res.json();
+
+                const tablicakursow = Object.keys(data.rates);
+                const rates = data.rates;
+                console.log(rates);
+
+                tablicakursow.map(item => {
+                    return html += `<option value=${item}>${item}</option>`;
+                });
+
+                for (let i = 0; i < select.length; i++) {
+                    select[i].innerHTML = html;
+                }
+
+                select[0].addEventListener('change', () => {
+                    output[0].value = rates[select[0].value];
+                });
+
+            };
+
+            curr();
+            });
+        </script>
 
     </div>
 
